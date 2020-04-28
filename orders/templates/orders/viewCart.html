@@ -1,0 +1,47 @@
+{% extends 'base.html' %}
+{% block body %}
+{% if not msg %}
+<h2>Your cart</h2>
+<table class="table">
+  <thead>
+    <tr>
+      <th scope="col">Item</th>
+      <th scope="col">Quantity</th>
+      <th scope="col">Price</th>
+
+    </tr>
+  </thead>
+  <tbody>
+    {% for k,v in items.items %}
+    <tr >
+      <td>
+        {{k}}
+      </td>
+      {%for q in v.values%}
+      <td>
+        {{q}}
+      </td>
+      {% endfor %}
+
+    </tr>
+
+    {% endfor %}
+    <tr>
+      <td>Total</td>
+      <td>{{ qt }}</td>
+      <td>{{ pt }}</td>
+    </tr>
+  </tbody>
+</table>
+<form class="" action="{% url 'placeOrder' %}" method="post">
+    {% csrf_token %}
+  <input type="hidden" name="olist" value="{% items.keys %}">
+  <input type="hidden" name="customer_name" value="{% user.username %}">
+  <button type="submit" name="button">Place order</button>
+</form>
+{% else %}
+<img src="../static/dog.jpg" class="rounded mx-auto d-block"/>
+
+{% endif %}
+
+{% endblock %}
